@@ -1,0 +1,84 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Bullscript",
+  "scopeName": "source.bullscript",
+	"patterns": [
+    {
+      "include": "#normal"
+    }
+  ],
+  "repository": {
+    "normal": {
+      "patterns": [
+        {
+          "match": "(?<!\\.)(\\b|^)(#\\s*application|#\\s*console|#\\s*component|import\\s+module|import\\s+npm|break|case|use database|use session|continue|default|do|else|finally|for|goto|if|import|package|return|switch|throw|try|while)\\b",
+          "name": "keyword.control.js"
+        },
+        {
+          "match": "(\\b|^)((0(x|X)[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?))\\b",
+          "name": "constant.numeric.js"
+        },
+        {
+          "match": "(?<!\\.)(\\b|^)(style|var|state)\\b",
+          "name": "storage.modifier.js"
+        },
+        {
+          "match": "(?<!\\.)(\\b|^):[a-zA-Z_][a-zA-Z0-9_]*\\b",
+          "name": "constant.character.escape"
+        },
+        {
+          "begin": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.js"
+            }
+          },
+          "end": "\"",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.js"
+            }
+          },
+          "name": "string.quoted.double.js",
+          "patterns": [
+            {
+              "include": "#stringliteral",
+              "name": "constant.character.escape.js"
+            }
+          ]
+        },
+        {
+          "match": "(?<!\\.)(\\b|^)(#[0-9a-zA-Z_-]+|[a-zA-Z_][a-zA-Z0-9_]*)\\b",
+          "name": "variable.parameter.function.js"
+        }
+      ]
+    },
+    "stringliteral": {
+      "patterns":[
+        {
+          "match": "(\\\\[\"{]|[^\\\"{])+",
+          "name": "string.value"
+        },
+        {
+          "begin": "{",
+          "beginCaptures": {
+            "0": {
+              "name": "meta.brace.curly.js"
+            }
+          },
+          "end": "}",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.curly.js"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#normal"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

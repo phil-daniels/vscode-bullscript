@@ -1,0 +1,185 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Bullscript",
+  "scopeName": "source.bullscript",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#cssDestructure"
+		},
+		{
+			"include": "#importWithDestructure"
+		},
+		{
+			"include": "#import"
+		},
+		{
+			"include": "#stringExpression"
+		},
+		{
+			"include": "#openTag"
+		},
+		{
+			"include": "#closeTag"
+		},
+		{
+			"include": "#single-line-comment"
+		}
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.bullscript",
+				"match": "(\\b|^)(#\\s*application|console)\\b"
+			}]
+		},
+    "var": {
+			"patterns": [{
+				"name": "storage.type.js",
+				"match": "\bvar\b"
+			}]
+		},
+		"import": {
+			"name": "meta.import.bullscript",
+			"match": "\\b(import)\\s+([a-zA-Z][.a-zA-Z0-9_-]*)\\s*((:)\\s*([a-zA-Z][.a-zA-Z0-9_-]*))?",
+			"captures": {
+				"1": {
+					"name": "keyword.control.bullscript"
+				},
+				"4": {
+					"name": "punctuation.definition.tag.bullscript"
+				}
+			}
+		},
+		"importWithDestructure": {
+			"name": "meta.import.bullscript",
+			"begin": "\\b(import)\\s+([a-zA-Z][.a-zA-Z0-9_-]*)\\s*((:)\\s*([a-zA-Z][.a-zA-Z0-9_-]*))?\\s*(as)\\s*{",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.bullscript"
+				},
+				"4": {
+					"name": "punctuation.definition.tag.bullscript"
+				},
+				"6": {
+					"name": "keyword.control.bullscript"
+				}
+			},
+			"end": "\\s*}",
+			"patterns": [
+				{ "include": "#importStyle"      },
+				{ "include": "#importIdentifier" }
+			]
+		},
+		"importStyle": {
+			"name": "tag.styleapplication.bullscript",
+			"match": "\\.[a-zA-Z][.a-zA-Z0-9_-]*"
+		},
+		"importIdentifier": {
+			"name": "meta.import.identifier.bullscript",
+			"match": "[a-zA-Z][.a-zA-Z0-9_-]*"
+		},
+		"cssDestructure": {
+			"name": "meta.css.declaration.bullscript",
+			"begin": "\\b(css)\\s*{",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.control.bullscript"
+				}
+			},
+			"end": "\\s*}",
+			"patterns": [
+				{ "include": "#importStyle"      },
+				{ "include": "#importIdentifier" }
+			]
+		},
+		"openTag": {
+			"name": "meta.tag.bullscript",
+			"begin": "(<)\\W*([a-zA-Z]+)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.tag.bullscript"
+				},
+				"2": {
+					"name": "entity.name.tag.bullscript"
+				}
+			},
+			"end": "(/?>)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.tag.bullscript"
+				}
+			},
+			"patterns": [
+				{ "include": "#tagAttribute"     },
+				{ "include": "#numberLiteral"	   },
+				{ "include": "#stringExpression" },
+				{ "include": "#styleApplication" }
+			]
+		},
+		"closeTag": {
+			"name": "meta.tag.bullscript",
+			"match": "(<\\/>)",
+			"captures": {
+				"1": {
+					"name": "punctuation.definition.tag.bullscript"
+				}
+			}
+		},
+		"tagAttribute": {
+			"patterns": [
+				{
+					"begin": "\\W*([a-zA-Z][-a-zA-Z0-9_.]*)\\W*=",
+					"beginCaptures": {
+						"1": {
+							"name": "entity.other.attribute-name.bullscript"
+						}
+					},
+					"end": "(?=(\\W|\\/))"
+				}
+			]
+		},
+		"numberLiteral": {
+			"name": "storage.type.numeric.bullscript",
+			"match": "[0-9]+",
+			"captures": {
+				"0": {
+					"name": "storage.type.numeric.bigint.bullscript"
+				}
+			}
+		},
+		"stringExpression": {
+			"name": "string.quoted.double.bullscript",
+			"begin": "\"",
+	  	"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.bullscript"
+				}
+			},
+			"end": "(\")|((?:[^\\\\\\n])$)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.string.end.bullscript"
+				},
+				"2": {
+					"name": "invalid.illegal.newline.bullscript"
+				}
+			}
+		},
+		"styleApplication": {
+			"name": "tag.styleapplication.bullscript",
+			"match": "\\.[a-zA-Z][a-zA-Z0-9_-]*"
+		},
+		"single-line-comment": {
+			"match": "\\W*\\/\\/.*$",
+			"captures": {
+				"0": {
+					"name": "comment.bullscript"
+				}
+			},
+			"contentName": "comment.line.double-slash.bullscript"
+		}
+	}
+}

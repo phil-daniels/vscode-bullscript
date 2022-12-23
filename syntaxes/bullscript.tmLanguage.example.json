@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Bullscript",
+  "scopeName": "source.bullscript",
+  "patterns": [
+    {
+      "include": "#terms"
+    },
+    {
+      "include": "#punctuations"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    }
+  ],
+  "repository": {
+    "terms": {
+      "patterns": [
+        {
+          "name": "entity.name.type.language.mylang",
+          "match": "([a-z][a-z0-9]*(?:-[a-z0-9]+)*)"
+        },
+        {
+          "name": "entity.name.type.language.parens.mylang",
+          "begin": "([a-z][a-z0-9]*(?:-[a-z0-9]+)*)\\(",
+          "end": "\\)",
+          "patterns": [
+            {
+              "includes": "#terms"
+            },
+            {
+              "includes": "#strings"
+            },
+            {
+              "includes": "#numbers"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.mylang",
+          "match": "\\b(\\d+)\\b"
+        },
+        {
+          "name": "constant.numeric.decimal.mylang",
+          "match": "\\b(\\d+\\.\\d+)\\b"
+        }
+      ]
+    },
+    "punctuations": {
+      "patterns": [
+        {
+          "name": "punctuation.separator.parameter.mylang",
+          "match": ","
+        },
+        {
+          "name": "punctuation.curly.open.mylang",
+          "match": "\\{"
+        },
+        {
+          "name": "punctuation.curly.close.mylang",
+          "match": "\\}"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.mylang",
+      "begin": "\\<",
+      "end": "\\>",
+      "patterns": [
+        {
+          "name": "constant.character.escape.mylang",
+          "match": "\\\\."
+        },
+        {
+          "name": "punctuation.term.mylang",
+          "begin": "\\{",
+          "beginCaptures": {
+            "0": {
+              "name": "constant.numeric.integer.mylang"
+            }
+          },
+          "end": "\\}",
+          "endCaptures": {
+            "0": {
+              "name": "meta.brace.curly.mylang"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#terms"
+            },
+            {
+              "include": "#numbers"
+            },
+            {
+              "include": "#strings"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
